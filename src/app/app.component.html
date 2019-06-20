@@ -1,0 +1,17 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="container">
+  <h2>Upload Document</h2>
+  <form  (ngSubmit)="onSubmit(fileForm)">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control" name="name"   [(ngModel)]="fileForm.name" required >
+    </div>
+    <div class="form-group">
+      <label for="file">File:</label>
+      <input type="file" class="form-control" name="mydoc" [(ngModel)]="fileForm.file" required >
+    </div>
+    <button type="submit" class="btn btn-default">Upload</button>
+  </form>
+</div>
+
+<router-outlet></router-outlet>
