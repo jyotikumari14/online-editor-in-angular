@@ -22,7 +22,9 @@ export class AppComponent {
 
 	constructor(private httpClient: HttpClient, private sanitizer: DomSanitizer){
 		let doc = JSON.parse(localStorage.getItem("formdata"));
-		this.loadData(doc.id);
+		if (doc) {
+			this.loadData(doc.id);
+		}
 	}
 
 	public loadData(id){
