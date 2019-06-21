@@ -5,8 +5,9 @@ import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upl
 import * as $ from 'jquery';
 
 // const URL = 'http://localhost:3000/api/upload';
-// const URL = 'http://3.17.180.228:8000/api/v1/';
-const URL = 'http://127.0.0.1:8000/api/v1/';
+const URL = 'http://3.17.180.228:8000/api/v1/';
+// const URL = 'http://127.0.0.1:8000/api/v1/';
+let fdata = '';
 
 @Component({
   selector: 'app-root',
@@ -20,18 +21,23 @@ export class AppComponent {
 	error:any;
 
 	constructor(private httpClient: HttpClient, private sanitizer: DomSanitizer){
-		this.oldfile().subscribe(
+		let doc = JSON.parse(localStorage.getItem("formdata"));
+		this.loadData(doc.id);
+	}
+
+	public loadData(id){
+		this.oldfile(id).subscribe(
 		  (res) => {
 			this.webdata = res;
-			this.final = sanitizer.bypassSecurityTrustHtml(this.webdata.html);
+			this.final = this.sanitizer.bypassSecurityTrustHtml(this.webdata.html);
 			// console.log(res);
 		  },
 		  (err) => this.error = err
 		);
 	}
 
-	public oldfile() {
-		let url = URL+`file/1/`;
+	public oldfile(id) {
+		let url = URL+`file/`+id+`/`;
 		return this.httpClient.get(url);
 	}
 
@@ -40,20 +46,32 @@ export class AppComponent {
 	ngOnInit() {
 		this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
 		this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-			 console.log('ImageUpload:uploaded:', item, status, response);
+			 // console.log('ImageUpload:uploaded:', item, status, response);
+			 localStorage.setItem("formdata",response);
+			 this.loadData(JSON.parse(response).id);
 			 alert('File uploaded successfully');
 		};
 		$(document).ready(function(){
-			// alert("Hello");
 			$(".update").click(function(){
-				let arr = {}
-				console.log($(".editor input").length);
-				console.log($(".editor").serializeArray());
+				let fdata = new Array();
+				let inputs = $(".editor").serializeArray();
+				$.each(inputs,function(index,element){
+					fdata.push(element.value);
+				});
+				console.log(fdata);
+				$.ajax({
+					url: URL+`file/1/`,
+					type:'PATCH',
+					data:{'length':fdata.length,'data':JSON.stringify(fdata)},
+					success: function(result) {
+					    alert('Document Updated.');
+					}
+				});
 			})
 		});
 	}
 
-	SubForm(){
+	public SubForm(){
 		console.log("Hello");
 	}
 }
