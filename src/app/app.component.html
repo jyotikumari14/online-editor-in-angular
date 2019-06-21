@@ -4,7 +4,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <div class="container">
   <h2>Upload Document</h2>
-  <form >
+  <form enctype="multipart/form-data">
     <!-- <div class="form-group">
       <label for="name">Name:</label>
       <input type="text" class="form-control" name="name"  >
@@ -17,15 +17,14 @@
   [disabled]="!uploader.getNotUploadedItems().length">Upload</button>
   </form>
 </div>
-<!-- <input type="file" name="file" ng2FileSelect [uploader]="uploader" />
-<input type="text" name="name" ng2FileSelect />
 
-<button type="button" class="btn btn-success btn-s" 
-  (click)="uploader.uploadAll()" 
-  [disabled]="!uploader.getNotUploadedItems().length" >
-      Upload an Image
-</button> -->
-
+<div class="container">
+  <h2>Fill the Document</h2>
+  <form (ngSubmit)="SubForm()" method="post" style="margin: 50px 0;">
+    <div [innerHTML]="final"></div>
+    <button class="btn btn-primary">Update</button>
+  </form>
+</div>
 
 
 <router-outlet></router-outlet>
