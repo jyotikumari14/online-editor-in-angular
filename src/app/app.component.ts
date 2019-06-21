@@ -21,8 +21,9 @@ export class AppComponent {
 	error:any;
 
 	constructor(private httpClient: HttpClient, private sanitizer: DomSanitizer){
-		let doc = JSON.parse(localStorage.getItem("formdata"));
-		if (doc) {
+		// console.log(localStorage.getItem("formdata"));
+		if (localStorage.getItem("formdata")){
+			let doc = JSON.parse(localStorage.getItem("formdata"));
 			this.loadData(doc.id);
 		}
 	}
@@ -49,7 +50,9 @@ export class AppComponent {
 		this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
 		this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
 			 // console.log('ImageUpload:uploaded:', item, status, response);
-			 localStorage.setItem("formdata",response);
+			 if (JSON.parse(response).id) {
+			 	localStorage.setItem("formdata",response);
+			 }
 			 this.loadData(JSON.parse(response).id);
 			 alert('File uploaded successfully');
 		};
@@ -61,8 +64,9 @@ export class AppComponent {
 					fdata.push(element.value);
 				});
 				console.log(fdata);
+				let doc = JSON.parse(localStorage.getItem("formdata"));
 				$.ajax({
-					url: URL+`file/1/`,
+					url: URL+`file/`+doc.id+`/`,
 					type:'PATCH',
 					data:{'length':fdata.length,'data':JSON.stringify(fdata)},
 					success: function(result) {
