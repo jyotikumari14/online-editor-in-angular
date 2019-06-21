@@ -20,9 +20,9 @@
 
 <div class="container">
   <h2>Fill the Document</h2>
-  <form (ngSubmit)="SubForm()" method="post" style="margin: 50px 0;">
+  <form (ngSubmit)="SubForm()" class="editor" onsubmit="return false;" style="margin: 50px 0;">
     <div [innerHTML]="final"></div>
-    <button class="btn btn-primary">Update</button>
+    <button class="btn btn-primary update" type="submit">Update</button>
   </form>
 </div>
 

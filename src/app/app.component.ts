@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from  '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import {  FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
+import * as $ from 'jquery';
 
 // const URL = 'http://localhost:3000/api/upload';
 // const URL = 'http://3.17.180.228:8000/api/v1/';
@@ -41,6 +42,18 @@ export class AppComponent {
 		this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
 			 console.log('ImageUpload:uploaded:', item, status, response);
 			 alert('File uploaded successfully');
-		 };
+		};
+		$(document).ready(function(){
+			// alert("Hello");
+			$(".update").click(function(){
+				let arr = {}
+				console.log($(".editor input").length);
+				console.log($(".editor").serializeArray());
+			})
+		});
+	}
+
+	SubForm(){
+		console.log("Hello");
 	}
 }
